@@ -200,41 +200,51 @@ bool ScaleMode::CheckNotes(){
   return correctScale;
 }
 
-void ScaleMode::Method1(){
+void ScaleMode::FindOutChord(){
   //making sure the loop will be executed
   for(int i = 0; i < skalaVec.size(); i++) correctNotesOrder[i] = false;
   tempInt = 0;
 
   while (correctNotesOrder[0] == false || correctNotesOrder[1] == false){
-    //default values for correct notes
     for(int i = 0; i < skalaVec.size(); i++) correctNotesOrder[i] = true;
+    ScaleMode::Method1();
+    ScaleMode::Check();
+    ScaleMode::Method2();
+    ScaleMode::Check();
+    tempInt++;
+  }
+  if (flat) odp = tonesDown[chordNotesMix[0]];
+  else odp = tonesUp[chordNotesMix[0]];
+}
 
-    //changing order of notes depending on which try to match it is
-    for(int i = 0; i < skalaVec.size(); i++){
-      iX = tempInt + i;
-      /*if (tempInt > skalaVec.size() - 1){ //method2
-        if (iX + methodOrder[i] > 2) iX -= 3;
-        chordNotesMix[i] = chordNotes[iX + methodOrder[i]];
-        chordNotes[i] = chordNotesMix[i];
-      }*/
-      if (iX > 2) iX -= 3;
-      chordNotesMix[i] = chordNotes[iX];
-      }
-    }
+void ScaleMode::Method1(){
+  for(int i = 0; i < skalaVec.size(); i++){
+    iX = tempInt + i;
+    if (iX > 2) iX -= 3;
+    chordNotesMix[i] = chordNotes[iX];
+  }
+}
 
-    //checking if the order is correct and if yes, setting values to cout
-    for(int i = 0; i < skalaVec.size(); i++){
-      if (chordNotesMix[i+1] - chordNotesMix[i] < 3) chordNotesMix[i+1] += 12;
-      if ((chordNotesMix[i+1] - chordNotesMix[i]) == 4) minor[i] = false;
-      else if ((chordNotesMix[i+1] - chordNotesMix[i]) == 3) minor[i] = true;
-      else correctNotesOrder[i] = false;
+void ScaleMode::Method2(){
+  for(int i = 0; i < skalaVec.size(); i++){
+    if (tempInt > skalaVec.size() - 1){
+    if (iX + methodOrder[i] > 2) iX -= 3;
+    chordNotesMix[i] = chordNotes[iX + methodOrder[i]];
+    chordNotes[i] = chordNotesMix[i];
     }
+  }
+}
+
+void ScaleMode::Check(){
+  for(int i = 0; i < skalaVec.size(); i++){
+    if (chordNotesMix[i+1] - chordNotesMix[i] < 3) chordNotesMix[i+1] += 12;
+    if ((chordNotesMix[i+1] - chordNotesMix[i]) == 4) minor[i] = false;
+    else if ((chordNotesMix[i+1] - chordNotesMix[i]) == 3) minor[i] = true;
+    else correctNotesOrder[i] = false;
+  }
 }
 
 void ScaleMode::CoutFoundChord(){
-  //depending on input, prepare output
-  if (flat) odp = tonesDown[chordNotesMix[0]];
-  else odp = tonesUp[chordNotesMix[0]];
 
   //output
   if (minor [0] == true && minor[1] == false) cout << odp << " minor " << endl;

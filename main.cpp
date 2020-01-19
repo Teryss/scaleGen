@@ -39,7 +39,7 @@ int main()
     do{
       s1.AskForFindOutChordAndPrepare();
     }while(!s1.CheckNotes());
-    s1.Method1();
+    s1.FindOutChord();
     s1.CoutFoundChord();
 
     return 0;

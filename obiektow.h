@@ -47,6 +47,8 @@ public:
     void Seventh(); //chords but with 4th additional note
     void AskForFindOutChordAndPrepare(); //finds out chord by notes
     bool CheckNotes(); //checks notes before looking for a chord
+    void FindOutChord();
+    void Check();
     void Method1(); //changing the notes order and commpare
     void Method2(); //changing the notes sequence and compare
     void CoutFoundChord(); //outputing found chord
