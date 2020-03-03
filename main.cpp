@@ -7,31 +7,17 @@ using namespace std;
 
 int main()
 {
-  string output;
-  char output2;
-  bool correct=false;
 
-    cout << "Scale you want to generate (scale: large letters, type: small, ex: Db major, F# aeolian): " << endl;
-    getline(cin, output);
-    cout << "You want notes flat or sharp?(flats - f, sharps -s):" << endl;
-    cin >> output2;
-
-    ScaleMode s1(output, output2);
-
-    s1.Seperate();
-    s1.MatchRoot();
-    s1.MatchMode();
-    s1.CheckFlatsSharps();
-    correct = s1.CheckModeAndRoot();
-    while(!correct){
-      cout << "Wrong scale root or mode or letter for flats/sharps! Enter again!" << endl;
+    ScaleMode s1;
+    do{
       s1.Load();
       s1.Seperate();
       s1.MatchRoot();
       s1.MatchMode();
       s1.CheckFlatsSharps();
-      correct = s1.CheckModeAndRoot();
-    }
+      //s1.Debug();
+    }while(!s1.CheckFailure());
+
     s1.CreateScale();
     s1.OutputScale();
     s1.Chords();
